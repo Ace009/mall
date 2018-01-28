@@ -1,6 +1,6 @@
 ﻿{include file="public/meta" /}
 
-{black name="eso"}
+{block name="eso"}
 <title>{$title|default="网站 title"}</title>
 <meta name="keywords" content="{$keywords|default='网站关键词'}">
 <meta name="description" content="{$description|default='网站描述'}">
@@ -202,8 +202,7 @@
 <!--/_footer /作为公共模版分离出去-->
 {block name="js"}
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript">
-</script>
+
 <!--/请在上方写此页面业务相关的脚本-->
 {/block}
 

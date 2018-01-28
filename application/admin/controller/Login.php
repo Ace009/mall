@@ -68,8 +68,4 @@ class Login extends Controller
         }
     }
 
-    public function test()
-    {
-        session(null);
-    }
 }
