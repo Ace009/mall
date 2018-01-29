@@ -10,3 +10,15 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+//无限分类 获取tree结构数据
+function getTree($data,$pid){
+    $tree = '';
+    foreach($data as $k=>$v){
+        if($v['pid'] == $pid){
+            $v['pid']= getTree($data,$v['id']);
+            $tree[] = $v;
+        }
+    }
+    return $tree;
+}

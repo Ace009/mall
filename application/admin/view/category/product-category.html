@@ -2,7 +2,10 @@
 
 {block name="content"}
 <style type="text/css">
-
+	.Huifold .item h4{margin:0;font-weight:bold;position:relative;border-top: 1px solid #fff;font-size:15px;line-height:22px;padding:7px 10px;background-color:#dadad6;cursor:pointer;padding-right:30px}
+	.Huifold .item h4 b{position:absolute;display: block; cursor:pointer;right:10px;top:7px;width:16px;height:16px; text-align:center; color:#666}
+	.Huifold .item h5{margin:0;font-weight:bold;position:relative;border-top: 1px solid #fff;font-size:15px;line-height:22px;padding:7px 10px;background-color:#eee;cursor:pointer;padding-left: 20px}
+	.Huifold .item h5 b{position:absolute;display: block; cursor:pointer;right:10px;top:7px;width:16px;height:16px; text-align:center; color:#666}
 </style>
 <section class="Hui-article-box">
 	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span> 产品分类 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -10,36 +13,82 @@
 		<article class="cl pd-20">
 			<table class="table">
 				<tr>
-					<td width="200" class="va-t">
-						<ul id="Huifold1" class="Huifold">
+					<td width="350" class="va-t">
+						<ul id="Huifold1" class="Huifold ml-40">
+							{volist name="categoryList" id="vo"}
 							<li class="item">
-								<h4>一级目录<b>+</b></h4>
-								<ul id="Huifold1" class="Huifold">
+								<h4 >{$vo.title}<b>-</b>
+									<span class="f-r">
+									<a title="添加" href="javascript:;" onclick="add_category('{:url('category/categoryAdd',['pid'=>$vo.id])}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe600;</i></a>
+									<a title="编辑" href="javascript:;" onclick="edit_category('{:url('category/categoryEdit',['id'=>$vo.id])}')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+									<a title="删除" href="javascript:;" onclick="del_category(this,{$vo.id},'h4')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+									</span>
+								</h4>
+								<ul id="Huifold2" class="Huifold Huifold2">
+									{volist name="$vo.pid" id="so"}
 									<li class="item">
-										<h4>二级目录<b>+</b></h4>
-										<div class="info"> 三级目录<br>三级目录 </div>
+										<h5>{$so.title}<b>+</b>
+									<span class="f-r pr-15">
+									<a title="添加" href="javascript:;" onclick="add_category('{:url('category/categoryAdd',['pid'=>$so.id])}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe600;</i></a>
+									<a title="编辑" href="javascript:;" onclick="edit_category('{:url('category/categoryEdit',['id'=>$so.id])}')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+									<a title="删除" href="javascript:;" onclick="del_category(this,{$so.id},'h5')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+									</span>
+
+										</h5>
+										<div class="info" style="padding-left: 40px;">
+										{volist name="$so.pid" id="sso"}
+										<span>{$sso.title}
+									<i class="f-r pr-15">
+									<a title="编辑" href="javascript:;" onclick="edit_category('{:url('category/categoryEdit',['id'=>$sso.id])}')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+									<a title="删除" href="javascript:;" onclick="del_category(this,{$sso.id},'span')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+									</i>
+										<br></span>
+										{/volist}
+										</div>
 									</li>
-									<li class="item">
-										<h4>二级目录<b>+</b></h4>
-										<div class="info">三级目录<br>三级目录</div>
-									</li>
-									<li class="item">
-										<h4>二级目录<b>+</b></h4>
-										<div class="info">三级目录<br>三级目录</div>
-									</li>
+									{/volist}
 								</ul>
 							</li>
-							<li class="item">
-								<h4>标题<b>+</b></h4>
-								<div class="info">内容<br>很多内容</div>
-							</li>
-							<li class="item">
-								<h4>标题<b>+</b></h4>
-								<div class="info">内容<br>很多内容</div>
-							</li>
+							{/volist}
 						</ul>
 					</td>
-					<td class="va-t"><iframe ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING=AUTO width=100%  height=390px SRC=""></iframe></td>
+					<td class="va-t"><div class="cl pd-20">
+						<form action="" method="post" class="form form-horizontal" id="form-user-add">
+							<div class="row cl">
+								<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>分类名称：</label>
+								<div class="formControls col-xs-8 col-sm-5">
+									<input type="text" class="input-text " value="" name="title">
+								</div>
+							</div>
+
+							<div class="row cl">
+								<label class="form-label col-xs-4 col-sm-3">栏目分类：</label>
+								<div class="formControls col-xs-8 col-sm-5">
+								<span class="select-box">
+								<select class="select" name="pid" size="1">
+									<option value="0">顶级栏目</option>
+									{volist name="categoryList" id="vo"}
+
+									<option value="{$vo.id}">{$vo.title}</option>
+									{volist name="vo.pid" id="so"}
+									<option value="{$so.id}">&nbsp;&nbsp;--{$so.title}</option>
+									{/volist}
+
+									{/volist}
+
+
+								</select>
+								</span>
+								</div>
+							</div>
+
+							<div class="row cl">
+								<div class="col-9 col-offset-2">
+									<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+								</div>
+							</div>
+						</form>
+					</div></td>
 				</tr>
 			</table>
 		</article>
@@ -52,12 +101,55 @@
 <script>
     $("#Huifold1").Huifold({
         titCell:'.item h4',
+        mainCell:'.item info',
+        type:3,
+        trigger:'click',
+        className:"selected",
+        speed:"first",
+    });
+    $(".Huifold2").Huifold({
+        titCell:'.item h5',
         mainCell:'.item .info',
         type:3,
         trigger:'click',
         className:"selected",
         speed:"first",
     });
+    $("form").submit(function (e) {
+        e.preventDefault(e);
+        $.ajax({
+            type:"POST",
+            url:"{:url('category/categoryAdd')}",
+            data:$("form").serialize(),
+            dataType:"json",
+            success:function (data) {
+                if(data.status == 1){
+                    layer.msg(data.message,{"icon":1,"time":2000});
+                    setTimeout(window.location.reload(),2000);
+                }else{
+                    layer.msg(data.message,{"icon":5,"time":2000});
+                }
+            }
+        })
+    });
+    //添加分类
+    function add_category(url){
+        layer_show('添加分类',url,500,200);
+	}
+	//编辑分类名
+	function edit_category(url){
+        layer_show('编辑分类',url,500,200);
+	}
+	//删除分类
+    function del_category(obj,id,tag){
+        layer.confirm('确认要删除吗？',function(index){
+            //此处请求后台程序，下方是成功后的前台处理……
+            $.get("{:url('category/categoryDel')}",{id:id});
+            $(obj).parents(tag).remove();
+            layer.msg('删除成功',{icon:1,time:2000});
+
+        });
+    }
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 {/block}}

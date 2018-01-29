@@ -9,8 +9,8 @@
     <div class="row cl">
       <label class="form-label col-xs-2 col-sm-3"><span class="c-red">*</span>姓名：</label>
       <div class="col-xs-8 col-sm-5">
-        <input type="hidden" value="{$pid}" name="pid">
-        <input type="text" class="input-text" value="" placeholder="分类名称" name="title">
+        <input type="hidden" name="id" value="{$data.id}">
+        <input type="text" class="input-text" value="{$data.title}" placeholder="分类名称" name="title">
         <input class="btn btn-primary radius mt-10" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
       </div>
     </div>
@@ -26,7 +26,7 @@
         e.preventDefault(e);
         $.ajax({
             type:"POST",
-            url:"{:url('category/categoryAdd')}",
+            url:"{:url('category/categoryEdit')}",
             data:$("form").serialize(),
             dataType:"json",
             success:function (data) {
