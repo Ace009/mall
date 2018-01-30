@@ -1,0 +1,66 @@
+{extend name="public/base" /}
+
+{block name="header"}{/block}
+{block name="menu"}{/block}
+
+{block name="content"}
+
+<div class="pd-20" style="text-align: center">
+  <form action="{:url('brand/insert')}" method="post" class="form form-horizontal" id="form-user-add" enctype="multipart/form-data">
+    <div class="row cl">
+      <label class="form-label col-xs-2 col-sm-3"><span class="c-red">*</span>品牌名：</label>
+      <div class="col-xs-8 col-sm-6">
+        <input type="text" class="input-text" value="" placeholder="品牌名" name="name">
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-2 col-sm-3"><span class="c-red">*</span>logo图片：</label>
+      <div class="col-xs-8 col-sm-6">
+        <span class="btn-upload form-group">
+  <input class="input-text upload-url radius col-xs-8 col-sm-6" style="width: 366px;" type="text" name="" id="uploadfile-1" readonly placeholder="请上传小于100K的图片">
+  <input type="file" id="logo" multiple name="logo" class="input-file">
+</span>
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-2 col-sm-3"><span class="c-red">*</span>品牌描述：</label>
+      <div class="col-xs-8 col-sm-6">
+        <textarea name="describe" cols="" rows="" class="textarea "  placeholder="说点什么...最少输入10个字符" ></textarea>
+        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+      </div>
+    </div>
+    <input class="btn btn-primary radius mt-10" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+  </form>
+</div>
+{/block}
+
+{block name="js"}
+<!--请在下方写此页面业务相关的脚本-->
+
+<script>
+    $("form").submit(function (e) {
+        //使用FormData的最大优点就是可以异步上传一个二进制文件.
+        var formData = new FormData($( "#form-user-add" )[0]);  //指定表单对象
+        e.preventDefault(e);
+        $.ajax({
+            type:"POST",
+            url:"{:url('brand/insert')}",
+            data: formData,
+            //以下4要素为 ajax 上传必要参数 缺少将报 jQuery 错误
+            async: true,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success:function (data) {
+                if(data.status == 1){
+                    layer.msg(data.message,{"icon":1,"time":2000});
+                    setTimeout(parent.location.reload(),2000);
+                }else{
+                    layer.msg(data.message,{"icon":5,"time":2000});
+                }
+            }
+        })
+    });
+</script>
+{/block}}
