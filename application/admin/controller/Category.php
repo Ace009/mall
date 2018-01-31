@@ -17,7 +17,7 @@ class Category extends Common
         $this->assign('categoryList',$data);
 
 
-        return view('product-category');
+        return view('index');
     }
     //添加分类
     public function categoryAdd(Request $request)
@@ -44,7 +44,7 @@ class Category extends Common
            return ['status'=>$status,'message'=>$result];
        }
        $this->assign('pid',$request->param('pid'));
-       return view('product-category-add');
+       return view('add');
     }
 
     //编辑分类
@@ -65,7 +65,7 @@ class Category extends Common
             return ['status'=>$status,'message'=>$result];
         }
 
-        return view('product-category-edit');
+        return view('edit');
     }
 
     //删除分类
